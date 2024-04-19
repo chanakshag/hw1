@@ -111,7 +111,7 @@
 .headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
--OP TABLE IF EXISTS Movies;
+TABLE IF EXISTS Movies;
 DROP TABLE IF EXISTS Studios;
 DROP TABLE IF EXISTS Characters;
 DROP TABLE IF EXISTS MovieCharacter;
@@ -180,7 +180,9 @@ INSERT INTO MovieCharacter (movie_id, Character_id, role_name) VALUES
 .print ""
 
 -- The SQL statement for the movies output
--- TODO!
+SELECT movie_title, year_released, mpaa_rating, name_studio
+FROM Movies
+JOIN Studios ON Movies.studio_id = studios.id;
 
 -- Prints a header for the cast output
 .print ""
@@ -190,7 +192,7 @@ INSERT INTO MovieCharacter (movie_id, Character_id, role_name) VALUES
 
 
 -- The SQL statement for the cast output
-SELECT movie_title, name_character, role_name
+SELECT movie_title, name_Character, role_name
 FROM Movies
-JOIN MovieActor ON Movies.id = MovieCharacter.movie_id
-JOIN Actors ON Actors.id = MovieCharacter.Character_id;
+JOIN MovieCharacter ON Movies.id = MovieCharacter.movie_id
+JOIN Characters ON Characters.id = MovieCharacter.Character_id;
